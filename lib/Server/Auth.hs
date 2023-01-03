@@ -16,6 +16,7 @@ import           DB.SQLite
 import           Email.Email             (sendEmail)
 import           Email.Verify
 import           Email.Welcome
+-- import           HaveIBeenPwned
 import           Servant
 import           Servant.Auth.Server
 import           Types.API.Auth
@@ -100,6 +101,18 @@ registerAPI Register {
 
     when (isJust mExistingUserByUsername || isJust mExistingUserByEmail) $
         throwError err409
+
+--     runNoLoggingT $ do
+--         mgr <- liftIO $ newManager tlsManagerSettings
+--         let hibpEnv = HaveIBeenPwnedConfig mgr "https://api.pwnedpasswords.com/range"
+--         p' <- flip runPwnedT hibpEnv $ haveIBeenPwned $ password'
+--         liftIO $ case p' of
+--             HaveIBeenPwnedResult_Secure ->
+--                 pure ()
+--             HaveIBeenPwnedResult_Pwned p'' ->
+--                 throwError err400 -- include message
+--             HaveIBeenPwnedResult_Error ->
+--                 throwError err500
 
     -- hash password
     mHashedPassword <- liftIO $ hashPasswordUsingPolicy slowerBcryptHashingPolicy (encodeUtf8 password')
