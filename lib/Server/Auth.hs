@@ -48,7 +48,7 @@ loginAPI cookieSettings jwtSettings Login {
     -- patterns (including using 'enter').
 
     -- Valid user?
-    mUser <- liftIO $ getOneByField conn' "users" "username" username'
+    mUser <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "username" username'
 
     when (isNothing mUser) $ throwError err401
 
@@ -95,9 +95,9 @@ registerAPI Register {
     uiHost' <- asks uiHost
 
     -- Existing user?
-    mExistingUserByUsername <- liftIO $ getOneByField conn' "users" "username" username' :: AppM (Maybe User)
+    mExistingUserByUsername <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "username" username' :: AppM (Maybe User)
 
-    mExistingUserByEmail <- liftIO $ getOneByField conn' "users" "email" email' :: AppM (Maybe User)
+    mExistingUserByEmail <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "email" email' :: AppM (Maybe User)
 
     when (isJust mExistingUserByUsername || isJust mExistingUserByEmail) $
         throwError err409
@@ -151,7 +151,7 @@ verifyAPI (Just verificationToken') = do
     conn' <- asks conn
     smtpSettings' <- asks smtpSettings
     uiHost' <- asks uiHost
-    mUser <- liftIO $ getOneByField conn' "users" "verificationToken" verificationToken' :: AppM (Maybe User)
+    mUser <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "verificationToken" verificationToken' :: AppM (Maybe User)
     when (isJust mUser) $ do
         let (Just user) = mUser
         let modifiedUser = user {

@@ -16,12 +16,12 @@ import           Types.User                 as User
 getUsersAPI ∷ User → App GetUsersAPI
 getUsersAPI _user = do
     conn' <- asks conn
-    getAll conn' "users"
+    getAllSoftDeletedExclusive conn' "users" "deletedAt"
 
 getUserIdAPI ∷ User → App GetUserIdAPI
 getUserIdAPI _user' userId = do
     conn' <- asks conn
-    mUser <- getOneById conn' "users" userId
+    mUser <- getOneByIdSoftDeletedExclusive conn' "users" "deletedAt" userId
     case mUser of
         Just user -> pure user
         _ -> throwError $ err404 {
@@ -31,16 +31,16 @@ getUserIdAPI _user' userId = do
 deleteUserIdAPI ∷ User → App DeleteUserIdAPI
 deleteUserIdAPI _user userId = do
     conn' <- asks conn
-    deleteById conn' "users" userId
+    softDeleteById conn' "users" userId
     pure "Nothing"
 
 putUserIdAPI ∷ User → App PutUserIdAPI
 putUserIdAPI _user userId newUser = do
     conn' <- asks conn
-    mUser <- getOneById conn' "users" userId :: AppM (Maybe User)
+    mUser <- getOneByIdSoftDeletedExclusive conn' "users" "deletedAt" userId :: AppM (Maybe User)
     case mUser of
         Just _ -> do
-            updateOneById conn' "users" newUser
+            updateOneByIdSoftDeleteExclusive conn' "users" "deletedAt" newUser
             pure newUser
         _ -> throwError $ err404 {
             errBody = "Specified user not found"
