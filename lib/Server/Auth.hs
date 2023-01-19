@@ -157,7 +157,7 @@ verifyAPI (Just verificationToken') = do
         let modifiedUser = user {
             verificationToken = UserVerificationToken Nothing
         }
-        -- liftIO $ updateOneById conn' "users" modifiedUser
+        -- liftIO $ updateOneByIdSoftDeleteExclusive conn'  "users" "deletedAt" modifiedUser
         liftIO . sendEmail smtpSettings' $ welcome uiHost' modifiedUser
     pure NoContent
 

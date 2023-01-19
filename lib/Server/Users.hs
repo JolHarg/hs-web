@@ -31,7 +31,7 @@ getUserIdAPI _user' userId = do
 deleteUserIdAPI ∷ User → App DeleteUserIdAPI
 deleteUserIdAPI _user userId = do
     conn' <- asks conn
-    softDeleteById conn' "users" userId
+    softDeleteById conn' "users" "deletedAt" userId
     pure "Nothing"
 
 putUserIdAPI ∷ User → App PutUserIdAPI
