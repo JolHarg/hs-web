@@ -2,15 +2,15 @@
 
 module Email.Welcome where
 
-import           Data.Text.Lazy
-import           Email.Email                 as Email
-import           Network.Mail.Mime
-import qualified Text.Blaze.Html5            as H
-import           Text.Blaze.Html5            ((!))
-import qualified Text.Blaze.Html5.Attributes as A
-import           Types.Email                 as TypeEmail
-import           Types.Name
-import           Types.User
+import Data.Text.Lazy
+import Email.Email                 as Email
+import Network.Mail.Mime
+import Text.Blaze.Html5 qualified as H
+import Text.Blaze.Html5            ((!))
+import Text.Blaze.Html5.Attributes qualified as A
+import Types.Email                 as TypeEmail
+import Types.Name
+import Types.User
 
 welcome ∷ String → User → Email.Email
 welcome host User {
