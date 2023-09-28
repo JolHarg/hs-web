@@ -52,7 +52,6 @@ library
                       -Wno-implicit-prelude
                       -Wno-missing-safe-haskell-mode
                       -Wno-missing-kind-signatures
-                      -Wno-prepositive-qualified-module
                       -Wno-missing-local-signatures
 
 
@@ -70,7 +69,6 @@ test-suite jolharg-web-test
                       -Wno-implicit-prelude
                       -Wno-missing-safe-haskell-mode
                       -Wno-missing-kind-signatures
-                      -Wno-prepositive-qualified-module
                       -Wno-missing-local-signatures
   build-depends:
     base >= 4.12 && < 5

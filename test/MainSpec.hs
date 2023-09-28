@@ -1,6 +1,6 @@
 module MainSpec where
 
-import           Test.Hspec
+import Test.Hspec
 
 spec ∷ Spec
 spec = pure ()

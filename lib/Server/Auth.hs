@@ -4,34 +4,34 @@
 
 module Server.Auth where
 
-import           Control.Monad.IO.Class
-import           Control.Monad.Reader
-import           Crypto.BCrypt
-import           Data.Maybe
-import           Data.Text.Encoding
-import           Data.Time
-import           Data.UUID.V4
-import           DB.Instances.User       ()
-import           DB.SQLite
-import           Email.Email             (sendEmail)
-import           Email.Verify
-import           Email.Welcome
+import Control.Monad.IO.Class
+import Control.Monad.Reader
+import Crypto.BCrypt
+import Data.Maybe
+import Data.Text.Encoding
+import Data.Time
+import Data.UUID.V4
+import DB.Instances.User       ()
+import DB.SQLite
+import Email.Email             (sendEmail)
+import Email.Verify
+import Email.Welcome
 -- import           HaveIBeenPwned
-import           Servant
-import           Servant.Auth.Server
-import           Types.API.Auth
-import           Types.App
-import           Types.Email             as Email
-import           Types.Env
-import           Types.Instances.User    ()
-import           Types.Login             as Login
-import           Types.Name              as Name
-import           Types.Password
-import           Types.Register          as Register
-import           Types.User              as User
-import           Types.Username
-import           Types.UserType
-import           Types.VerificationToken
+import Servant
+import Servant.Auth.Server
+import Types.API.Auth
+import Types.App
+import Types.Email             as Email
+import Types.Env
+import Types.Instances.User    ()
+import Types.Login             as Login
+import Types.Name              as Name
+import Types.Password
+import Types.Register          as Register
+import Types.User              as User
+import Types.Username
+import Types.UserType
+import Types.VerificationToken
 
 -- Here is the login handler
 loginAPI ∷ CookieSettings

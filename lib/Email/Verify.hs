@@ -5,8 +5,8 @@ module Email.Verify where
 import Data.Text.Lazy
 import Email.Email                 as Email
 import Network.Mail.Mime
-import Text.Blaze.Html5 qualified as H
 import Text.Blaze.Html5            ((!))
+import Text.Blaze.Html5            qualified as H
 import Text.Blaze.Html5.Attributes qualified as A
 import Types.Email                 as TypeEmail
 import Types.Name

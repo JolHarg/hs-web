@@ -5,13 +5,13 @@
 module Server.User where
 
 -- import           Control.Monad.Trans.Reader
-import           DB.Instances.User ()
+import DB.Instances.User ()
 -- import           DB.SQLite
-import           Servant
-import           Types.API.User
-import           Types.App
+import Servant
+import Types.API.User
+import Types.App
 -- import           Types.Env
-import           Types.User        as User
+import Types.User        as User
 
 getUserAPI ∷ User → App GetUserAPI
 getUserAPI = pure

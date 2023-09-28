@@ -4,14 +4,14 @@
 
 module Server.Users where
 
-import           Control.Monad.Trans.Reader
-import           DB.Instances.User          ()
-import           DB.SQLite
-import           Servant
-import           Types.API.Users
-import           Types.App
-import           Types.Env
-import           Types.User                 as User
+import Control.Monad.Trans.Reader
+import DB.Instances.User          ()
+import DB.SQLite
+import Servant
+import Types.API.Users
+import Types.App
+import Types.Env
+import Types.User                 as User
 
 getUsersAPI ∷ User → App GetUsersAPI
 getUsersAPI _user = do

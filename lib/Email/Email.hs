@@ -1,15 +1,14 @@
 module Email.Email where
 
-import           Control.Monad.IO.Class
-import           Data.Text                     as T
-import           Data.Text.Lazy                as TL
-import           Network.Mail.Mime             (htmlPart, plainPart)
-import           Network.Mail.SMTP             (sendMailWithLoginSTARTTLS',
-                                                simpleMail)
-import           Network.Mail.SMTP.Types
-import           Text.Blaze.Html.Renderer.Text
-import           Text.Blaze.Html5              (Html)
-import           Types.Env
+import Control.Monad.IO.Class
+import Data.Text                     as T
+import Data.Text.Lazy                as TL
+import Network.Mail.Mime             (htmlPart, plainPart)
+import Network.Mail.SMTP             (sendMailWithLoginSTARTTLS', simpleMail)
+import Network.Mail.SMTP.Types
+import Text.Blaze.Html.Renderer.Text
+import Text.Blaze.Html5              (Html)
+import Types.Env
 
 data Email = Email {
     to      :: Address,
