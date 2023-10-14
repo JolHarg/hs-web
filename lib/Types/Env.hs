@@ -1,8 +1,8 @@
 
 module Types.Env where
 
-import           Database.SQLite.Simple
-import           Network.Socket
+import Database.SQLite.Simple
+import Network.Socket
 
 data SMTPSettings = SMTPSettings {
     server    :: HostName,
@@ -18,5 +18,6 @@ data Env = Env {
     conn         :: Connection,
     smtpSettings :: SMTPSettings,
     apiHost      :: HostName,
+    apiPort      :: PortNumber,
     uiHost       :: HostName
 }
