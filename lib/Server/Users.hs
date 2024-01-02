@@ -4,7 +4,7 @@
 
 module Server.Users where
 
-import Control.Monad.Trans.Reader
+import Control.Monad.Reader
 import DB.Instances.User          ()
 import DB.SQLite
 import Servant
@@ -16,12 +16,12 @@ import Types.User                 as User
 getUsersAPI ∷ User → App GetUsersAPI
 getUsersAPI _user = do
     conn' <- asks conn
-    getAllSoftDeletedExclusive conn' "users" "deletedAt"
+    getAllSoftDeletedInclusive conn' "users_view"
 
 getUserIdAPI ∷ User → App GetUserIdAPI
 getUserIdAPI _user' userId = do
     conn' <- asks conn
-    mUser <- getOneByIdSoftDeletedExclusive conn' "users" "deletedAt" userId
+    mUser <- getOneByIdSoftDeletedInclusive conn' "users_view" userId
     case mUser of
         Just user -> pure user
         _ -> throwError $ err404 {
@@ -37,21 +37,24 @@ deleteUserIdAPI _user userId = do
 putUserIdAPI ∷ User → App PutUserIdAPI
 putUserIdAPI _user userId newUser = do
     conn' <- asks conn
-    mUser <- getOneByIdSoftDeletedExclusive conn' "users" "deletedAt" userId :: AppM (Maybe User)
+    mUser <- getOneByIdSoftDeletedInclusive conn' "users_view" userId :: AppM (Maybe User)
     case mUser of
         Just _ -> do
-            updateOneByIdSoftDeleteExclusive conn' "users" "deletedAt" newUser
-            pure newUser
+            mUpdatedUser <- updateOneByIdSoftDeleteInclusive conn' "users" "users_view" newUser :: AppM (Maybe User)
+            case mUpdatedUser of
+                Nothing -> throwError $ err404 { 
+                    errBody = "Specified user not found"
+                }
+                Just updatedUser -> pure updatedUser
         _ -> throwError $ err404 {
             errBody = "Specified user not found"
         }
 
 postUserAPI ∷ User → App PostUserAPI
-postUserAPI _user newUser = do
+postUserAPI _user createUser = do
     conn' <- asks conn
-    insertOne conn' "users" newUser
-    pure newUser
-
+    insertOne conn' "users" "users_view" createUser
+    
 usersAPI ∷ User → App UsersAPI
 usersAPI user =
     getUsersAPI user :<|>

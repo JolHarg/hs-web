@@ -4,7 +4,7 @@
 
 module Server.User where
 
--- import           Control.Monad.Trans.Reader
+-- import           Control.Monad.Reader
 import DB.Instances.User ()
 -- import           DB.SQLite
 import Servant

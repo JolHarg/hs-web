@@ -9,7 +9,6 @@ import Control.Monad.Reader
 import Crypto.BCrypt
 import Data.Maybe
 import Data.Text.Encoding
-import Data.Time
 import Data.UUID.V4
 import DB.Instances.User       ()
 import DB.SQLite
@@ -28,7 +27,9 @@ import Types.Login             as Login
 import Types.Name              as Name
 import Types.Password
 import Types.Register          as Register
-import Types.User              as User
+import Types.User qualified as User (User(..), UserPassword(..), UserVerificationToken(..))
+import Types.User qualified as CreateUser (CreateUser(..), CreateUserName(..), CreateUserUsername(..), CreateUserEmail(..), CreateUserPassword(..), CreateUserType(..), CreateUserVerificationToken(..))
+import Types.User (User(), CreateUser(CreateUser))
 import Types.Username
 import Types.UserType
 import Types.VerificationToken
@@ -48,18 +49,18 @@ loginAPI cookieSettings jwtSettings Login {
     -- patterns (including using 'enter').
 
     -- Valid user?
-    mUser <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "username" username'
+    mUser <- liftIO $ getOneByFieldSoftDeletedInclusive conn' "users_view" "username" username'
 
     when (isNothing mUser) $ throwError err401
 
     let (Just user) = mUser
 
-    let (UserPassword (Password storedPassword')) = User.password user
+    let (User.UserPassword (Password storedPassword')) = User.password user
 
     unless (validatePassword (encodeUtf8 storedPassword') (encodeUtf8 password')) $
         throwError err401
 
-    let mToken = getUserVerificationToken (User.verificationToken user)
+    let mToken = User.getUserVerificationToken (User.verificationToken user)
 
     when (isJust mToken) $ throwError err403
 
@@ -121,28 +122,23 @@ registerAPI Register {
 
     let (Just bsHashedPassword) = mHashedPassword
 
-    userId <- liftIO nextRandom
     verificationToken' <- liftIO nextRandom
-    now <- liftIO getCurrentTime
+
     let hashedPassword = decodeUtf8 bsHashedPassword
     -- Create user
     -- todo catcherror cont error
     -- todo verification, mkEmail, mkPassword etc
-    let userToInsert = User {
-        User.id = UserId userId,
-        User.name = UserName (Name name'),
-        User.username = UserUsername (Username username'),
-        User.email = UserEmail (Email email'),
-        User.password = UserPassword (Password hashedPassword),
-        User.userType = UserType Normal,
-        User.verificationToken = UserVerificationToken (Just (VerificationToken verificationToken')),
-        User.createdAt = UserCreatedAt now,
-        User.updatedAt = UserUpdatedAt Nothing,
-        User.deletedAt = UserDeletedAt Nothing
+    let userToInsert = CreateUser {
+        CreateUser.name = CreateUser.CreateUserName (Name name'),
+        CreateUser.username = CreateUser.CreateUserUsername (Username username'),
+        CreateUser.email = CreateUser.CreateUserEmail (Email email'),
+        CreateUser.password = CreateUser.CreateUserPassword (Password hashedPassword),
+        CreateUser.userType = CreateUser.CreateUserType Normal,
+        CreateUser.verificationToken = CreateUser.CreateUserVerificationToken (Just (VerificationToken verificationToken'))
     }
-    insertOne conn' "users" userToInsert
-    liftIO . sendEmail smtpSettings' $ verify uiHost' userToInsert
-    pure userToInsert
+    returnedUser <- insertOne conn' "users" "users_view" userToInsert :: AppM User
+    liftIO . sendEmail smtpSettings' $ verify uiHost' returnedUser
+    pure returnedUser
 
 -- TODO verify
 verifyAPI ∷ App VerifyAPI
@@ -155,9 +151,9 @@ verifyAPI (Just verificationToken') = do
     when (isJust mUser) $ do
         let (Just user) = mUser
         let modifiedUser = user {
-            verificationToken = UserVerificationToken Nothing
+            User.verificationToken = User.UserVerificationToken Nothing
         }
-        -- liftIO $ updateOneByIdSoftDeleteExclusive conn'  "users" "deletedAt" modifiedUser
+        -- liftIO $ updateOneByIdSoftDeleteExclusive conn'  "users" "users_view" "deletedAt" modifiedUser
         liftIO . sendEmail smtpSettings' $ welcome uiHost' modifiedUser
     pure NoContent
 
