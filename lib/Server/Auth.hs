@@ -27,9 +27,16 @@ import Types.Login             as Login
 import Types.Name              as Name
 import Types.Password
 import Types.Register          as Register
-import Types.User qualified as User (User(..), UserPassword(..), UserVerificationToken(..))
-import Types.User qualified as CreateUser (CreateUser(..), CreateUserName(..), CreateUserUsername(..), CreateUserEmail(..), CreateUserPassword(..), CreateUserType(..), CreateUserVerificationToken(..))
-import Types.User (User(), CreateUser(CreateUser))
+import Types.User              (CreateUser (CreateUser), User)
+import Types.User              qualified as CreateUser (CreateUser (..),
+                                                        CreateUserEmail (..),
+                                                        CreateUserName (..),
+                                                        CreateUserPassword (..),
+                                                        CreateUserType (..),
+                                                        CreateUserUsername (..),
+                                                        CreateUserVerificationToken (..))
+import Types.User              qualified as User (User (..), UserPassword (..),
+                                                  UserVerificationToken (..))
 import Types.Username
 import Types.UserType
 import Types.VerificationToken

@@ -5,13 +5,13 @@
 module Server.Users where
 
 import Control.Monad.Reader
-import DB.Instances.User          ()
+import DB.Instances.User    ()
 import DB.SQLite
 import Servant
 import Types.API.Users
 import Types.App
 import Types.Env
-import Types.User                 as User
+import Types.User           as User
 
 getUsersAPI ∷ User → App GetUsersAPI
 getUsersAPI _user = do
@@ -42,7 +42,7 @@ putUserIdAPI _user userId newUser = do
         Just _ -> do
             mUpdatedUser <- updateOneByIdSoftDeleteInclusive conn' "users" "users_view" newUser :: AppM (Maybe User)
             case mUpdatedUser of
-                Nothing -> throwError $ err404 { 
+                Nothing -> throwError $ err404 {
                     errBody = "Specified user not found"
                 }
                 Just updatedUser -> pure updatedUser
@@ -54,7 +54,7 @@ postUserAPI ∷ User → App PostUserAPI
 postUserAPI _user createUser = do
     conn' <- asks conn
     insertOne conn' "users" "users_view" createUser
-    
+
 usersAPI ∷ User → App UsersAPI
 usersAPI user =
     getUsersAPI user :<|>
