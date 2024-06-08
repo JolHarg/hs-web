@@ -52,6 +52,7 @@ library
     -Wno-missing-import-lists -Wno-missing-export-lists
     -Wno-implicit-prelude -Wno-missing-safe-haskell-mode
     -Wno-missing-kind-signatures -Wno-missing-local-signatures
+    -Wno-all-missed-specialisations -Wno-missed-specialisations
 
 test-suite jolharg-web-test
   hs-source-dirs:     test
@@ -70,7 +71,7 @@ test-suite jolharg-web-test
     -Wno-unsafe -Wno-safe -Wno-missing-import-lists
     -Wno-missing-export-lists -Wno-implicit-prelude
     -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures
-    -Wno-missing-local-signatures
+    -Wno-missing-local-signatures -Wno-all-missed-specialisations -Wno-missed-specialisations
 
   build-depends:
     , base   >=4.12 && <5
