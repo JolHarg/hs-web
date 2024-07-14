@@ -167,7 +167,7 @@ verifyAPI (Just verificationToken') = do
 
 -- TODO forgot / change
 forgotAPI ∷ App ForgotAPI
-forgotAPI = undefined
+forgotAPI = pure NoContent
 
 authAPI ∷ CookieSettings → JWTSettings → App AuthAPI
 authAPI cs jwts = loginAPI cs jwts :<|> registerAPI :<|> verifyAPI :<|> forgotAPI
