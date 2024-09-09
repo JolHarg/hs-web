@@ -17,10 +17,10 @@ getUserAPI ∷ User → App GetUserAPI
 getUserAPI = pure
 
 deleteUserAPI ∷ User → App DeleteUserAPI
-deleteUserAPI _user = undefined
+deleteUserAPI _user = throwError err501
 
 putUserAPI ∷ User → App PutUserAPI
-putUserAPI _user _newUser = undefined
+putUserAPI _user _newUser = throwError err501
 
 userAPI ∷ User → App UserAPI
 userAPI user =
