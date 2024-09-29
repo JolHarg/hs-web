@@ -67,7 +67,6 @@ test-suite jolharg-web-test
     NoGeneralisedNewtypeDeriving
     OverloadedStrings
     UnicodeSyntax
-
   main-is:            Spec.hs
   ghc-options:
     -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -Weverything
@@ -78,15 +77,13 @@ test-suite jolharg-web-test
     -Wno-all-missed-specialisations -Wno-missed-specialisations
     -Wno-missing-role-annotations -Wno-unrecognised-warning-flags
     -Wno-missed-specialisations
-
   build-depends:
     , base   >=4.12 && <5
     , hspec
-
   -- , jolharg-web
   -- , hspec-core
   -- , hspec-expectations
   -- , HUnit
   -- , QuickCheck
-  -- build-tool-depends: hspec-discover:hspec-discover
+  build-tool-depends: hspec-discover:hspec-discover
   other-modules:      MainSpec
