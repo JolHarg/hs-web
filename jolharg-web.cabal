@@ -20,7 +20,7 @@ library
 
   -- other-extensions:
   build-depends:
-    , base                      >=4.12 && <5
+    , base                      >=4.20.0.0 && <5
     , bcrypt
     , jolharg-api-types
     , jolharg-database
@@ -39,10 +39,8 @@ library
   -- , time
   -- , transformers
   hs-source-dirs:     lib
-  default-language:   Haskell2010
+  default-language:   GHC2024
   default-extensions:
-    DerivingStrategies
-    ImportQualifiedPost
     NoGeneralisedNewtypeDeriving
     OverloadedStrings
     UnicodeSyntax
@@ -60,10 +58,8 @@ library
 test-suite jolharg-web-test
   hs-source-dirs:     test
   type:               exitcode-stdio-1.0
-  default-language:   Haskell2010
+  default-language:   GHC2024
   default-extensions:
-    DerivingStrategies
-    ImportQualifiedPost
     NoGeneralisedNewtypeDeriving
     OverloadedStrings
     UnicodeSyntax
@@ -78,7 +74,7 @@ test-suite jolharg-web-test
     -Wno-missing-role-annotations -Wno-unrecognised-warning-flags
     -Wno-missed-specialisations
   build-depends:
-    , base   >=4.12 && <5
+    , base   >=4.20.0.0 && <5
     , hspec
   -- , jolharg-web
   -- , hspec-core

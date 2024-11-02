@@ -1,7 +1,3 @@
-{-# LANGUAGE DataKinds #-}
-
-
-
 module Server.User where
 
 -- import           Control.Monad.Reader

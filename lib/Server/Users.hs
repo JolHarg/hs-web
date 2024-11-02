@@ -1,6 +1,4 @@
-{-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE OverloadedStrings #-}
-
 
 module Server.Users where
 
