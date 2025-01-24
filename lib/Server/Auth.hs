@@ -131,7 +131,9 @@ registerAPI Register {
 
     verificationToken' <- liftIO nextRandom
 
-    let hashedPassword = decodeUtf8 bsHashedPassword
+    -- eh, it's just a PASSWORD, whatcha gonna do, SUE ME?
+    let hashedPassword = decodeUtf8Lenient bsHashedPassword
+
     -- Create user
     -- todo catcherror cont error
     -- todo verification, mkEmail, mkPassword etc
