@@ -22,6 +22,7 @@ import Types.API.Auth
 import Types.App
 import Types.Email             as Email
 import Types.Env
+-- todo put this closer to api
 import Types.Instances.User    ()
 import Types.Login             as Login
 import Types.Name              as Name

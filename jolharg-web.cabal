@@ -1,4 +1,4 @@
-cabal-version:      3.4
+cabal-version:      3.12
 name:               jolharg-web
 version:            0.2.0.0
 license:            AGPL-3.0-only
@@ -17,10 +17,11 @@ library
     Server.Auth
     Server.User
     Server.Users
+    Types.Instances.User
 
   -- other-extensions:
   build-depends:
-    , base                      ^>=4.20.0.0
+    , base                      ^>=4.21.0.0
     , bcrypt                    ^>=0.0.11
     , jolharg-api-types         ^>=0.2.0.0
     , jolharg-database          ^>=0.2.0.0
@@ -30,6 +31,7 @@ library
     , jolharg-web-models        ^>=0.2.0.0
     , jolharg-web-types         ^>=0.2.0.0
     , mtl                       ^>=2.3.1
+    , servant-auth              ^>=0.4.2.0
     , servant-auth-server       ^>=0.4.9.0
     , servant-server            ^>=0.20.2
     , text                      ^>=2.1.2
@@ -55,6 +57,8 @@ library
     -Wno-unrecognised-warning-flags -Wno-missed-specialisations
 
 test-suite jolharg-web-test
+  if arch(javascript) || arch(wasm32)
+    buildable: False
   hs-source-dirs:     test
   type:               exitcode-stdio-1.0
   default-language:   GHC2024
@@ -64,8 +68,10 @@ test-suite jolharg-web-test
     UnicodeSyntax
 
   main-is:            Spec.hs
+  if !arch(wasm32)
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N 
   ghc-options:
-    -Wall -Werror -threaded -rtsopts -with-rtsopts=-N -Weverything
+    -Wall -Werror -Weverything
     -Wno-unsafe -Wno-safe -Wno-missing-import-lists
     -Wno-missing-export-lists -Wno-implicit-prelude
     -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures
@@ -75,7 +81,7 @@ test-suite jolharg-web-test
     -Wno-missed-specialisations
 
   build-depends:
-    , base   ^>=4.20.0.0
+    , base   ^>=4.21.0.0
     , hspec  ^>=2.11.10
 
   -- , jolharg-web
