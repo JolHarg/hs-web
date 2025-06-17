@@ -171,5 +171,10 @@ verifyAPI (Just verificationToken') = do
 forgotAPI ∷ App ForgotAPI
 forgotAPI _ = pure NoContent
 
-authAPI ∷ CookieSettings → JWTSettings → App AuthAPI
-authAPI cs jwts = loginAPI cs jwts :<|> registerAPI :<|> verifyAPI :<|> forgotAPI
+authAPI ∷ CookieSettings → JWTSettings → App (NamedRoutes AuthAPI)
+authAPI cs jwts = AuthAPI {
+    loginRoute = loginAPI cs jwts,
+    registerRoute = registerAPI,
+    verifyRoute = verifyAPI,
+    forgotRoute = forgotAPI
+}
