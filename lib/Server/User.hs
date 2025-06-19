@@ -19,7 +19,8 @@ putUserAPI ∷ User → App PutUserAPI
 putUserAPI _user _newUser = throwError err501
 
 userAPI ∷ User → App UserAPI
-userAPI user =
-    getUserAPI user :<|>
-    deleteUserAPI user :<|>
-    putUserAPI user
+userAPI user = UserAPI {
+    getUser = getUserAPI user,
+    deleteUser = deleteUserAPI user,
+    putUser = putUserAPI user
+}

@@ -54,9 +54,10 @@ postUserAPI _user createUser = do
     insertOne conn' "users" "users_view" createUser
 
 usersAPI ∷ User → App UsersAPI
-usersAPI user =
-    getUsersAPI user :<|>
-    getUserIdAPI user :<|>
-    deleteUserIdAPI user :<|>
-    putUserIdAPI user :<|>
-    postUserAPI user
+usersAPI user = UsersAPI {
+    getUsers = getUsersAPI user,
+    getUserId = getUserIdAPI user,
+    deleteUserId = deleteUserIdAPI user,
+    putUserId = putUserIdAPI user,
+    postUserAPI = postUserAPI user
+}
