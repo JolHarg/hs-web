@@ -1,6 +1,6 @@
 cabal-version:      3.12
 name:               jolharg-web
-version:            0.2.0.0
+version:            0.3.0.0
 license:            AGPL-3.0-only
 author:             Dan Dart
 maintainer:         git@dandart.co.uk
@@ -23,13 +23,13 @@ library
   build-depends:
     , base                      ^>=4.21.0.0
     , bcrypt                    ^>=0.0.11
-    , jolharg-api-types         ^>=0.2.0.0
-    , jolharg-database          ^>=0.2.0.0
-    , jolharg-emails            ^>=0.2.0.0
-    , jolharg-servant-examples  ^>=0.2.0.0
-    , jolharg-web-database      ^>=0.2.0.0
-    , jolharg-web-models        ^>=0.2.0.0
-    , jolharg-web-types         ^>=0.2.0.0
+    , jolharg-api-types         ^>=0.3.0.0
+    , jolharg-database          ^>=0.3.0.0
+    , jolharg-emails            ^>=0.3.0.0
+    , jolharg-servant-examples  ^>=0.3.0.0
+    , jolharg-web-database      ^>=0.3.0.0
+    , jolharg-web-models        ^>=0.3.0.0
+    , jolharg-web-types         ^>=0.3.0.0
     , mtl                       ^>=2.3.1
     , servant-auth              ^>=0.4.2.0
     , servant-auth-server       ^>=0.4.9.0
@@ -38,7 +38,7 @@ library
     , uuid                      ^>=1.3.16
 
   -- , haveibeenpwned
-  -- , time                 ^>=1.14
+  -- , time                 ^>=1.15
   hs-source-dirs:     lib
   default-language:   GHC2024
   default-extensions:
@@ -57,8 +57,9 @@ library
     -Wno-unrecognised-warning-flags -Wno-missed-specialisations
 
 test-suite jolharg-web-test
-  if arch(javascript) || arch(wasm32)
+  if (arch(javascript) || arch(wasm32))
     buildable: False
+
   hs-source-dirs:     test
   type:               exitcode-stdio-1.0
   default-language:   GHC2024
@@ -68,17 +69,18 @@ test-suite jolharg-web-test
     UnicodeSyntax
 
   main-is:            Spec.hs
+
   if !arch(wasm32)
-    ghc-options: -threaded -rtsopts -with-rtsopts=-N 
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
+
   ghc-options:
-    -Wall -Werror -Weverything
-    -Wno-unsafe -Wno-safe -Wno-missing-import-lists
-    -Wno-missing-export-lists -Wno-implicit-prelude
-    -Wno-missing-safe-haskell-mode -Wno-missing-kind-signatures
-    -Wno-missing-poly-kind-signatures -Wno-missing-local-signatures
-    -Wno-all-missed-specialisations -Wno-missed-specialisations
-    -Wno-missing-role-annotations -Wno-unrecognised-warning-flags
-    -Wno-missed-specialisations
+    -Wall -Werror -Weverything -Wno-unsafe -Wno-safe
+    -Wno-missing-import-lists -Wno-missing-export-lists
+    -Wno-implicit-prelude -Wno-missing-safe-haskell-mode
+    -Wno-missing-kind-signatures -Wno-missing-poly-kind-signatures
+    -Wno-missing-local-signatures -Wno-all-missed-specialisations
+    -Wno-missed-specialisations -Wno-missing-role-annotations
+    -Wno-unrecognised-warning-flags -Wno-missed-specialisations
 
   build-depends:
     , base   ^>=4.21.0.0
