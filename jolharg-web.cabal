@@ -21,7 +21,7 @@ library
 
   -- other-extensions:
   build-depends:
-    , base                      ^>=4.21.0.0
+    , base                      >=4.21.0.0 && <4.23.0.0
     , bcrypt                    ^>=0.0.11
     , jolharg-api-types         ^>=0.3.0.0
     , jolharg-database          ^>=0.3.0.0
@@ -83,13 +83,13 @@ test-suite jolharg-web-test
     -Wno-unrecognised-warning-flags -Wno-missed-specialisations
 
   build-depends:
-    , base   ^>=4.21.0.0
+    , base   >=4.21.0.0 && <4.23.0.0
     , hspec  ^>=2.11.10
 
   -- , jolharg-web
   -- , hspec-core ^>=2.11.10
   -- , hspec-expectations ^>=0.8.4
   -- , HUnit
-  -- , QuickCheck ^>=2.16.0.0
+  -- , QuickCheck ^>=2.17.0.0
   build-tool-depends: hspec-discover:hspec-discover
   other-modules:      MainSpec
