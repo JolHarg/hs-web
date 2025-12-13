@@ -158,8 +158,7 @@ verifyAPI (Just verificationToken') = do
     smtpSettings' <- asks smtpSettings
     uiHost' <- asks uiHost
     mUser <- liftIO $ getOneByFieldSoftDeletedExclusive conn' "users" "deletedAt" "verificationToken" verificationToken' :: AppM (Maybe User)
-    when (isJust mUser) $ do
-        let (Just user) = mUser
+    for_ mUser $ \user -> do
         let modifiedUser = user {
             User.verificationToken = User.UserVerificationToken Nothing
         }
