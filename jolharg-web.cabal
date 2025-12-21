@@ -21,7 +21,7 @@ library
 
   -- other-extensions:
   build-depends:
-    , base                      >=4.21 && <4.23
+    , base                      ^>=4.22
     , bcrypt                    ^>=0.0.11
     , jolharg-api-types         ^>=0.3
     , jolharg-database          ^>=0.3
@@ -83,7 +83,7 @@ test-suite jolharg-web-test
     -Wno-unrecognised-warning-flags -Wno-missed-specialisations
 
   build-depends:
-    , base   >=4.21 && <4.23
+    , base   ^>=4.22
     , hspec  ^>=2.11.15
 
   -- , jolharg-web
