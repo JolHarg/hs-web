@@ -1,0 +1,6 @@
+.env
+.direnv
+dist-newstyle
+result*
+.stack-work
+hie.yaml
