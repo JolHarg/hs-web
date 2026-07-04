@@ -92,6 +92,11 @@ mkRegister email' username' name' pw1 pw2 = do
     }
 -}
 
+
+-- Here is the logout handler
+logoutAPI :: AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] ())
+logoutAPI = undefined
+
 registerAPI ∷ App RegisterAPI
 registerAPI Register {
     Register.username = Username username',
@@ -173,6 +178,7 @@ forgotAPI _ = pure NoContent
 authAPI ∷ CookieSettings → JWTSettings → App (NamedRoutes AuthAPI)
 authAPI cs jwts = AuthAPI {
     loginRoute = loginAPI cs jwts,
+    logoutRoute = logoutAPI,
     registerRoute = registerAPI,
     verifyRoute = verifyAPI,
     forgotRoute = forgotAPI
